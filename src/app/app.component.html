@@ -1,7 +1,23 @@
 <h5>TEST APPLICATION</h5>
 
-<!--  THIS H5 ELEMENT IS LISTENING TO A CLICK EVENT
-      ON CLICK IT FIRES THE TEST() FUNCTION IN OUR COMPONENT
-      USING {{ }} WE CAN DISPLAY ANY VARIABLE WITHIN THE COMPONENT THAT CAN BE INTERPOLATED INTO A STRING
--->
-<h5 (click)="test()">{{title}}</h5>
+<h5>Author</h5>
+<input type="text" [(ngModel)]="author"  >
+
+<h5>Title</h5>
+<input type="text" [(ngModel)] = "title">
+
+<h5>Body</h5>
+<input type="text" [(ngModel)] = "body">
+
+
+<button (click)="saveBlog()">Submit Blog</button>
+
+
+<!-- DISPLAY MULTIPLE OBJECTS IN AN ARRAY SUING *ngFor -->
+<div class="blog" *ngFor="let blog of Blogs">
+  <h5>{{blog.title}}</h5><br>
+  <h4>{{blog.body}}</h4><br>
+  <p>{{blog.author}}</p><br>
+  <p>{{blog.date}}</p><br>
+  <hr>
+</div>
