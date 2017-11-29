@@ -9,13 +9,13 @@ router.get('/', function(req, res, next) {
 });
 
 // THE SERVER WILL PERFORM THE CALLBACK FUNCTION WHEN IT RECEIVES THIS URL
-router.get('/changeTitle', /* CALL BACK FUNCTION --> */function(req, res, next) {
-   return res.status(200).json({
+router.get('/changeTitle', /* CALL BACK FUNCTION --> */function(request, response) {
+   return response.status(200).json({
     title: "New Title"
   });
 });
 
-// THE SERVER WILL MAKE A CALL TO MONGO USING MONGOOSE USING THE DATA PASSED TO IT BY THE REQUEST SENT BY THE CLIENT
+// THE SERVER WILL MAKE A CALL TO MONGO USING MONGOOSE USING THE DATA PASSEDa TO IT BY THE REQUEST SENT BY THE CLIENT
 router.post('/saveBlog', function(req, res) {
   var blog = new Blog({
     author    : req.body.author,

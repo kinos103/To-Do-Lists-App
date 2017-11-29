@@ -10,7 +10,6 @@ var users = require('../routes/users');
 
 var app = express();
 
-mongoose.connect('mongodb://Hask107:zz//55gohi@cluster0-shard-00-00-dbpgw.mongodb.net:27017,cluster0-shard-00-01-dbpgw.mongodb.net:27017,cluster0-shard-00-02-dbpgw.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

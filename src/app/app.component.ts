@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MiddlewareService} from './middleware.service';
 import {Blog} from '../models/Blog';
-import {error} from 'util';
 
 @Component({
   selector: 'app-root',
@@ -40,12 +39,13 @@ export class AppComponent implements OnInit {
     this.middleware.saveBog(blog).subscribe(
       data => {
         console.log(data);
+        this.retrieveBlogs();
+
       },
       err =>  {
         console.error(err.error);
       }
     );
-    this.retrieveBlogs();
 
   }
   // THIS FUNCTION CALLS THE MIDDLEWARE SERVICE AND FIRES AN OBSERVABLE FUNCTION
