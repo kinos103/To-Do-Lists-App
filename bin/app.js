@@ -7,8 +7,9 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var index = require('../routes/index');
 var users = require('../routes/users');
-
 var app = express();
+
+mongoose.connect('mongodb://kinos103:P2PgUji9GZpl8R0U@cluster0-shard-00-00-sspuh.mongodb.net:27017,cluster0-shard-00-01-sspuh.mongodb.net:27017,cluster0-shard-00-02-sspuh.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin')
 
 
 // view engine setup
@@ -37,6 +38,7 @@ app.use(function (req, res, next) {
 app.use('/', index);
 app.use('/users', users);
 
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -52,7 +54,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('index');
 });
 
 module.exports = app;

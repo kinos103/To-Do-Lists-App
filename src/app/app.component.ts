@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MiddlewareService} from './middleware.service';
-import {Blog} from '../models/Blog';
+import {Note} from '../models/Note';
 
 @Component({
   selector: 'app-root',
@@ -11,71 +11,71 @@ import {Blog} from '../models/Blog';
 })
 export class AppComponent implements OnInit {
 
-  //  VARIABLE TO HOLD CURRENT BLOGS
-  Blogs: Blog[] = [];
-
-  // VARIABLES TO HOLD TEMP BLOG
-  author: string;
-  title: string;
-  body: string;
+  //  VARIABLE TO HOLD CURRENT NOTES
+  Notes: Note[] = [];
+  ShowInput = false;
+  CurrentNote = new Note();
+  newNote = new Note();
 
   // INJECT YOUR DEPENDENCIES WHEN YOU CALL YOUR COMPONENT TO THE DOM
-  constructor(private middleware: MiddlewareService)  {}
+  constructor(private middleware: MiddlewareService)  {
+
+  }
 
   // LOCAL VARIABLE USED WITHIN THE COMPONENT AND ITS TEMPLATE
 
   // THIS FUNCTION FIRES ONCE THE COMPONENT INITIALIZES IN THE DOM
   ngOnInit()  {
     // RETRIEVE ALL BLOGS FROM SERVER ON START UP
-    this.retrieveBlogs();
+    this.Refresh();
   }
 
-  saveBlog()  {
-    const blog = new Blog(
-      this.author,
-      this.title,
-      this.body
-    );
-    this.middleware.saveBog(blog).subscribe(
-      data => {
-        console.log(data);
-        this.retrieveBlogs();
+  SubmitNote()  {
+    this.newNote.date = Date.now();
+    this.middleware.saveNote(this.newNote)
+      .subscribe(
+        data => {
+          console.log(data.message);
+          this.Refresh();
+          this.newNote = new Note();
+          this.ShowInput = false;
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  }
 
-      },
-      err =>  {
-        console.error(err.error);
-      }
-    );
+  deleteCurrentNote() {
+    this.middleware.deleteNote(this.CurrentNote)
+      .subscribe(
+        data => {
+            this.CurrentNote = this.Notes[0];
+            this.Refresh();
+        },
+        error => {
+          console.error(error);
+        }
+      );
+  }
+
+  Refresh() {
+    this.middleware.getNotes()
+    .subscribe(
+        data => {
+          this.Notes = [];
+          for (const note of data) {
+            this.Notes.push(note);
+          }
+        },
+        error => {
+          console.error(error);
+        }
+      );
 
   }
   // THIS FUNCTION CALLS THE MIDDLEWARE SERVICE AND FIRES AN OBSERVABLE FUNCTION
-  // WE SUBSCRIBE TO THE DATA AND ANY ERRORS
-  test()  {
-    this.middleware.changeTitle().subscribe(data =>   {
-      // IN ORDER TO SEE WHAT DATA IS LOADED INTO DATA TRY CONSOLE.LOG(DATA)
-      // WE REPLACE OUR LOCAL INSTANCE OF TITLE WITH THE STRING STORED IN DATA
-      this.title = data.title;
-    },
-    err =>  {
-      // LET'S HOPE THIS ONE DOESN'T FIRE
-      console.error(err);
-    });
-  }
+  // WE SUBSCRIBE TO THE DATA AND ANY ERROR
 
-  retrieveBlogs() {
-    // RETRIEVE ALL BLOGS FROM SERVER ON START UP
-    this.middleware.retrieveBlogs().subscribe(
-      data => {
-        this.Blogs = [];
-        for (const blog of data.result)  {
-          this.Blogs.push(blog);
-        }
-        console.log('Blogs Received from DB');
-      },
-      err =>  {
-        console.error(err);
-      }
-    );
-  }
 }
 

@@ -1,10 +1,10 @@
 var Mongoose = require('mongoose');
 
-var BlogPost = new Mongoose.Schema({
-  author    : String,
-  title     : String,
-  body      : String,
-  date      : String
+var Note = new Mongoose.Schema({
+  title: {type:String},
+  body: {type:String},
+  date: {type: Number}
+
 });
 
-module.exports = Mongoose.model('Blog', BlogPost);
+module.exports = Mongoose.model('Note', Note);

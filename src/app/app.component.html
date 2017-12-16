@@ -1,24 +1,52 @@
-<h5>TEST APPLICATION</h5>
+<div class="row">
 
-<h5>Author</h5>
-<input type="text" [(ngModel)]="author"  >
+  <div class="col-md-4">
+    <h5> N O T E S </h5>
+    <div *ngFor="let note of Notes" class="summary" (click)="CurrentNote = note" [style.background-color] = "note._id == CurrentNote._id ? 'blue' : 'white'">
+      {{note.title}}, {{note.date}}
 
-<h5>Title</h5>
-<input type="text" [(ngModel)] = "title">
+    </div>
 
-<h5>Body</h5>
-<input type="text" [(ngModel)] = "body">
+    <button mat-button class="add" (click)="ShowInput = true">
+      <mat-icon>
+        add_circle_outline
+      </mat-icon>
+    </button>
 
+  </div>
+  <div class="col-md-8">
 
-<button (click)="saveBlog()">Submit Blog</button>
+    <div class="summary">
+      {{CurrentNote.title}}
+      <br>
+      {{CurrentNote.date }}
+      <br>
+      {{CurrentNote.body }}
 
-
-<!-- DISPLAY MULTIPLE OBJECTS IN AN ARRAY SUING *ngFor -->
-<hr>
-<div class="blog" *ngFor="let blog of Blogs">
-  <h5>{{blog.title}}</h5><br>
-  <h4>{{blog.body}}</h4><br>
-  <p>{{blog.author}}</p><br>
-  <p>{{blog.date}}</p><br>
-  <hr>
+    </div>
+    <button mat-button class="delete" (click)="deleteCurrentNote(CurrentNote)" >
+      <mat-icon>
+        delete_forever
+      </mat-icon>
+    </button>
+  </div>
 </div>
+
+
+
+<div class="inputcontainer" *ngIf="ShowInput" >
+  <button mat-button class="deleteEntry" (click)="ShowInput = false">
+    <mat-icon>
+      delete_forever
+    </mat-icon>
+  </button>
+  <input type="text" [(ngModel)] = "newNote.title">
+  <input type="text" [(ngModel)] = "newNote.body">
+  <button mat-button class="saveNote" (click)="SubmitNote()">
+    <mat-icon>
+      add_circle_outline
+    </mat-icon>
+  </button>
+
+</div>
+
